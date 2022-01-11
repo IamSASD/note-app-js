@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body{
+    background-color: #EEEEEE;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container{
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* Header */
+.head{
+    background-color: #548CFF;
+    padding: 5px;
+}
+
+.head-container{
+    min-height: 5vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.head-title{
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+
+.button-add-head{
+    color: #fff;
+    font-size: 25px;
+}
+
+/* Notes Container */
+.notes-container{
+    min-height: 95vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-container{
+    width: 200px;
+    height: 200px;
+    border-radius: 30px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.empty-text{
+    color: #8c918c;
+}
+
+.button-add-main{
+    color: #548CFF;
+}
+
+/* Pop up */
+.wrapper{
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.pop-up-form{
+    max-width: 500px;
+    width: 100%;
+    min-height: 400px;
+    margin: 10% auto;
+    background-color: #fff;
+    border-radius: 30px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+
+.legend-form{
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+.label-title,
+.label-content{
+    display: inline-block;
+    width: 100%;
+    margin-top: 10px;
+    color: #000;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.input-title{
+    height: 30px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid #548CFF;
+}
+
+.text-content{
+    height: 160px;
+    width: 100%;
+    padding: 10px;
+    resize: none;
+    border: 1px solid #548CFF;
+    border-radius: 10px;
+}
+
+/* Footer */
+.footer{
+    background-color: #548CFF;
+    padding: 10px;
+}
+
+.footer-content{
+    color: #fff;
+    text-align: center;
+}
+
+.footer-content a{
+    color: #2541bd;
+}
+
+
