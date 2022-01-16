@@ -7,6 +7,8 @@ const wrapper = document.querySelector('.wrapper');
 const exitPopUp = document.querySelector('.exit') ;
 const notesContainer = document.querySelector('.notes-container');
 const message = document.querySelector('.empty-container');
+let noteTitle = document.querySelector('.input-title');
+let noteText = document.querySelector('.text-content');
 
 
 eventListeners()
@@ -30,23 +32,39 @@ let ui;
 function manageValues(e){
 
     e.preventDefault();
-    const noteTitle = document.querySelector('.input-title').value;
-    const noteText = document.querySelector('.text-content').value;
 
-    ui = new UI(noteTitle, noteText);
+    // Add new notes
+    const titleValue = noteTitle.value;
+    const textValue = noteText.value;
 
-    const card = ui.cardNote();
-    let divCreate = document.createElement('div');
-    divCreate.className = 'card-note';
-    divCreate.innerHTML = card;
+    ui = new UI(titleValue, textValue);
 
-    notesContainer.appendChild(divCreate);
+    //validator for the fields
+    if(titleValue || textValue != ''){
 
+        const card = ui.cardNote();
+        let divCreate = document.createElement('div');
+        divCreate.className = 'card-note';
+        divCreate.innerHTML = card;
 
-    closedPopUp();
-    if(message.style.display != 'none'){
-        hideMessage();
+        notesContainer.appendChild(divCreate);
+
+        //Clean Inputs
+        cleanInputs();
+
+        //close pop up form
+        closedPopUp();
+
+        if(message.style.display != 'none'){
+            hideMessage();
+        }
+
+    }else{
+
+        alert('One or more fields are ampty');
+        
     }
+
 }
 
 
@@ -59,4 +77,9 @@ function hideMessage(){
     console.log(notesContainer);
 
     
+}
+
+function cleanInputs(){
+    noteTitle.value = '';
+    noteText.value = '';
 }
