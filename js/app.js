@@ -1,4 +1,5 @@
 import UI from './modules/UI.js';
+import Storage from './modules/Storage.js'
 
 const buttonHead =  document.querySelector('.button-add-head');
 const buttonMain =  document.querySelector('.button-add-main');
@@ -28,23 +29,37 @@ function closedPopUp(){
 }
 
 let ui;
+let storage;
 
 function manageValues(e){
 
     e.preventDefault();
 
-    // Add new notes
+    //get note values
     const titleValue = noteTitle.value;
     const textValue = noteText.value;
 
-    ui = new UI(titleValue, textValue);
+    //create id
+    const id = Date.now();
 
+    storage = new Storage(titleValue, textValue, id);
+    
+    //Add values to local storage
+    storage.saveValue();
+    
+    const getItems = storage.getValues();
+    const { key, items } = getItems;
+    const itemSplit = items.split(",");
+
+    ui = new UI(itemSplit[0], itemSplit[1]);
+    
     //validator for the fields
-    if(titleValue || textValue != ''){
+    if(titleValue && textValue != ''){
 
         const card = ui.cardNote();
         let divCreate = document.createElement('div');
         divCreate.className = 'card-note';
+        divCreate.setAttribute('id', key);
         divCreate.innerHTML = card;
 
         notesContainer.appendChild(divCreate);
@@ -62,21 +77,19 @@ function manageValues(e){
     }else{
 
         alert('One or more fields are ampty');
-        
+
     }
 
 }
 
 
 function hideMessage(){
-    
-    
+
+
     message.style.display = 'none';
     notesContainer.classList.remove('notes-container');
     notesContainer.classList.add('notes-container-grid');
-    console.log(notesContainer);
 
-    
 }
 
 function cleanInputs(){
