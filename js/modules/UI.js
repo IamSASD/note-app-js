@@ -18,8 +18,8 @@ class UI {
                 <div class="card-options">
 
                     <a class="far fa-edit edit-option"></a>
-                    <a class="far fa-trash-alt edit-option"></a>
-                    <a class="fas fa-external-link-alt"></a>
+                    <a class="far fa-trash-alt remove-option"></a>
+                    <a class="fas fa-external-link-alt open-option"></a>
 
                 </div>
 

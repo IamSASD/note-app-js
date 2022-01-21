@@ -22,17 +22,19 @@ class Storage extends UI {
     }
 
     getValues(){
+        
+        let keys = '';
         for(let i = 0; i < localStorage.length; i++){
-            const key = localStorage.key(i);
-            const items = localStorage.getItem(key);
-            const fullItems = {
-                key,
-                items
-            };
-
-            return fullItems;
-            
+            keys += `${localStorage.key(i)},`;
         }
+        const keySplit = keys.split(",");
+        const filterKey = keySplit.filter(item => item != '');
+        return filterKey;
+
+    }
+
+    removeItem(key){
+        localStorage.removeItem(key);
     }
 
 }

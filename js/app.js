@@ -11,6 +11,8 @@ const message = document.querySelector('.empty-container');
 let noteTitle = document.querySelector('.input-title');
 let noteText = document.querySelector('.text-content');
 
+let ui;
+let storage;
 
 eventListeners()
 function eventListeners(){
@@ -18,6 +20,7 @@ function eventListeners(){
     buttonMain.addEventListener('click', showPopUp);
     exitPopUp.addEventListener('click', closedPopUp);
     popUp.addEventListener('submit', manageValues);
+    window.addEventListener('DOMContentLoaded', showItems);
 }
 
 function showPopUp(){
@@ -28,60 +31,67 @@ function closedPopUp(){
     wrapper.style.display = 'none';
 }
 
-let ui;
-let storage;
 
 function manageValues(e){
 
     e.preventDefault();
 
-    //get note values
+    //Create Id
+    const id = Date.now();
+
     const titleValue = noteTitle.value;
     const textValue = noteText.value;
 
-    //create id
-    const id = Date.now();
-
     storage = new Storage(titleValue, textValue, id);
     
-    //Add values to local storage
-    storage.saveValue();
-    
-    const getItems = storage.getValues();
-    const { key, items } = getItems;
-    const itemSplit = items.split(",");
+    //Validator fields
+    if(noteText && noteTitle != ''){
 
-    ui = new UI(itemSplit[0], itemSplit[1]);
-    
-    //validator for the fields
-    if(titleValue && textValue != ''){
-
-        const card = ui.cardNote();
-        let divCreate = document.createElement('div');
-        divCreate.className = 'card-note';
-        divCreate.setAttribute('id', key);
-        divCreate.innerHTML = card;
-
-        notesContainer.appendChild(divCreate);
-
-        //Clean Inputs
-        cleanInputs();
-
-        //close pop up form
-        closedPopUp();
-
-        if(message.style.display != 'none'){
-            hideMessage();
-        }
+        storage.saveValue(); //Save values in local storage
+        notesContainer.innerHTML = '';
+        showItems(); //show in the HTML
+        cleanInputs();// clear fields
+        closedPopUp();// close the pop up form
 
     }else{
-
-        alert('One or more fields are ampty');
-
+        alert('One or more fields are empty');
     }
-
+    
 }
 
+function showItems(){
+    if(localStorage.length != 0){
+
+        storage = new Storage();
+        let keyItems = storage.getValues();
+
+        for(let i = 0; i < keyItems.length; i++){
+
+            const getItems = localStorage.getItem(keyItems[i]);
+            const itemSplit = getItems.split(",");
+
+            ui = new UI(itemSplit[0], itemSplit[1]);
+
+
+                const card = ui.cardNote();
+                let divCreate = document.createElement('div');
+                divCreate.className = 'card-note';
+                divCreate.setAttribute('id', keyItems[i]);
+                divCreate.innerHTML = card;
+
+                notesContainer.appendChild(divCreate);
+
+                if(message.style.display != 'none'){
+                    hideMessage();
+                }
+
+        }
+    }
+}
+
+function removeItem(e){
+    storage = new Storage();
+}
 
 function hideMessage(){
 
