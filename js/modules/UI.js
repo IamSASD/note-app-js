@@ -17,9 +17,9 @@ class UI {
 
                 <div class="card-options">
 
-                    <a class="far fa-edit edit-option"></a>
-                    <a class="far fa-trash-alt remove-option"></a>
-                    <a class="fas fa-external-link-alt open-option"></a>
+                    <a class="far fa-edit" name="edit-option"></a>
+                    <a class="far fa-trash-alt" name="remove-option"></a>
+                    <a class="fas fa-external-link-alt" name="open-option"></a>
 
                 </div>
 

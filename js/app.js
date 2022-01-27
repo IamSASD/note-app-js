@@ -11,6 +11,11 @@ const message = document.querySelector('.empty-container');
 let noteTitle = document.querySelector('.input-title');
 let noteText = document.querySelector('.text-content');
 
+//Options buttons
+const removeOption = document.querySelector('.remove-option');
+const editOption = document.querySelector('.edit-option');
+const openOption = document.querySelector('.open-option');
+
 let ui;
 let storage;
 
@@ -21,6 +26,7 @@ function eventListeners(){
     exitPopUp.addEventListener('click', closedPopUp);
     popUp.addEventListener('submit', manageValues);
     window.addEventListener('DOMContentLoaded', showItems);
+    notesContainer.addEventListener('click', options);
 }
 
 function showPopUp(){
@@ -89,8 +95,16 @@ function showItems(){
     }
 }
 
-function removeItem(e){
+function options(e){
+
     storage = new Storage();
+
+    if(e.target.name === 'remove-option'){
+        const idNote = e.target.parentElement.parentElement.id;
+        storage.removeItem(idNote);
+        e.target.parentElement.parentElement.remove();
+    }
+
 }
 
 function hideMessage(){
