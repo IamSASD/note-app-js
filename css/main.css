@@ -86,7 +86,6 @@ body{
 }
 
 .card-title{
-    text-align: center;
     background-color: #548CFF;
     border-radius: 20px 20px 0 0 ;
     padding: 8px;
@@ -95,6 +94,7 @@ body{
     font-weight: 600;
     font-size: 20px;
     min-height: 5%;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -131,7 +131,8 @@ body{
 }
 
 /* Pop up */
-.wrapper{
+.wrapper,
+.wrapper-open{
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0;
@@ -180,6 +181,7 @@ body{
     resize: none;
     border: 1px solid #548CFF;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .exit{
@@ -211,6 +213,41 @@ body{
 
 .input-save:hover{
     background-color: #548dffa2;
+}
+
+/* pop up open */
+.open-card{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 100%;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 20px;
+    margin-top: 10%;
+    padding: 20px;
+}
+
+.open-title{
+    min-width: 90%;
+    text-align: center;
+    font-weight: 600;
+}
+.open-text{
+    text-align: center;
+    min-width: 90%;
+}
+
+.exit-open{
+    min-width: 100%;
+    text-align: end;
+    padding: 6px;
+}
+
+.exit-open a{
+    display: block;
+    color: #FF6363;
+    font-size: 20px;
 }
 
 /* Footer */

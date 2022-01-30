@@ -1,3 +1,4 @@
+import { wrapperOpen, wrapper, popUp, message, notesContainer } from "./Selectors.js";
 class UI {
 
     constructor(title, content){
@@ -27,6 +28,47 @@ class UI {
 
         return cardHtml;
         
+    }
+
+    OpenNote(){
+        const divWrapper = document.createElement('div');
+        divWrapper.innerHTML = `
+        
+            <div class="container">
+
+                <div class="open-card">
+                    <div class="exit-open">
+                
+                        <a href="#" class="fas fa-times" name="exit"></a>
+
+                    </div>
+
+                    <p class="open-title">${this.title}</p>
+                    <p class="open-text">${this.content}</p>
+                </div>
+            </div>
+        `
+        document.querySelector('.open-option').append(divWrapper);
+        wrapperOpen.style.display = 'block';
+    }
+
+    showNewNoteForm(){
+        wrapper.style.display = 'block';
+    }
+
+    hideNewNoteForm(){
+        wrapper.style.display = 'none';
+        this.cleanForm();
+    }
+
+    hideNewNoteMessage(){
+        message.style.display = 'none';
+        notesContainer.classList.remove('notes-container');
+        notesContainer.classList.add('notes-container-grid');
+    }
+
+    cleanForm(){
+        popUp.reset();
     }
 
     

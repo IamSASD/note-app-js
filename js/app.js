@@ -1,42 +1,40 @@
 import UI from './modules/UI.js';
 import Storage from './modules/Storage.js'
-
-const buttonHead =  document.querySelector('.button-add-head');
-const buttonMain =  document.querySelector('.button-add-main');
-const popUp = document.querySelector('.pop-up-form');
-const wrapper = document.querySelector('.wrapper');
-const exitPopUp = document.querySelector('.exit') ;
-const notesContainer = document.querySelector('.notes-container');
-const message = document.querySelector('.empty-container');
-let noteTitle = document.querySelector('.input-title');
-let noteText = document.querySelector('.text-content');
-
-//Options buttons
-const removeOption = document.querySelector('.remove-option');
-const editOption = document.querySelector('.edit-option');
-const openOption = document.querySelector('.open-option');
+import { buttonHead, buttonMain, exitPopUp, popUp, notesContainer, wrapperOpen, noteTitle, noteText, message } from './modules/Selectors.js'
 
 let ui;
 let storage;
 
 eventListeners()
 function eventListeners(){
-    buttonHead.addEventListener('click', showPopUp);
-    buttonMain.addEventListener('click', showPopUp);
-    exitPopUp.addEventListener('click', closedPopUp);
-    popUp.addEventListener('submit', manageValues);
     window.addEventListener('DOMContentLoaded', showItems);
-    notesContainer.addEventListener('click', options);
+    buttonHead.addEventListener('click', () => {
+        ui = new UI();
+        ui.showNewNoteForm();
+    });
+    buttonMain.addEventListener('click', () => {
+        ui = new UI();
+        ui.showNewNoteForm();
+    });
+    exitPopUp.addEventListener('click', () => {
+        ui = new UI();
+        ui.hideNewNoteForm();
+    });
+    popUp.addEventListener('submit', manageValues);
+    notesContainer.addEventListener('click', (e) => {
+        if(e.target.name == 'edit-option' || e.target.name == 'remove-option' || e.target.name == 'open-option'){
+            optionsNote(e);
+        }
+    });
+    wrapperOpen.addEventListener('click', exitPopUpOption);
 }
 
-function showPopUp(){
-    wrapper.style.display = 'block';
+function exitPopUpOption(e){
+    if(e.target.name == 'exit'){
+        wrapperOpen.style.display = 'none';
+        wrapperOpen.innerHTML = '';
+    }
 }
-
-function closedPopUp(){
-    wrapper.style.display = 'none';
-}
-
 
 function manageValues(e){
 
@@ -49,15 +47,16 @@ function manageValues(e){
     const textValue = noteText.value;
 
     storage = new Storage(titleValue, textValue, id);
+    ui = new UI();
     
     //Validator fields
-    if(noteText && noteTitle != ''){
+    if(titleValue && textValue != ''){
 
         storage.saveValue(); //Save values in local storage
         notesContainer.innerHTML = '';
         showItems(); //show in the HTML
-        cleanInputs();// clear fields
-        closedPopUp();// close the pop up form
+        ui.cleanForm();// clear fields
+        ui.hideNewNoteForm();// close the pop up form
 
     }else{
         alert('One or more fields are empty');
@@ -88,35 +87,30 @@ function showItems(){
                 notesContainer.appendChild(divCreate);
 
                 if(message.style.display != 'none'){
-                    hideMessage();
+                    ui.hideNewNoteMessage();
                 }
 
         }
     }
 }
 
-function options(e){
+function optionsNote(e){
+
+    const titleContent = e.target.parentElement.previousElementSibling.children[0].textContent,
+    textContent = e.target.parentElement.previousElementSibling.children[1].value;
 
     storage = new Storage();
+    ui = new UI(titleContent, textContent);
 
     if(e.target.name === 'remove-option'){
         const idNote = e.target.parentElement.parentElement.id;
         storage.removeItem(idNote);
         e.target.parentElement.parentElement.remove();
+    }else if(e.target.name = "open-option"){
+        ui.OpenNote();
     }
 
 }
 
-function hideMessage(){
 
 
-    message.style.display = 'none';
-    notesContainer.classList.remove('notes-container');
-    notesContainer.classList.add('notes-container-grid');
-
-}
-
-function cleanInputs(){
-    noteTitle.value = '';
-    noteText.value = '';
-}
