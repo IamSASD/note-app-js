@@ -1,6 +1,6 @@
 import UI from './modules/UI.js';
 import Storage from './modules/Storage.js'
-import { buttonHead, buttonMain, exitPopUp, popUp, notesContainer, wrapperOpen, noteTitle, noteText, message } from './modules/Selectors.js'
+import { buttonHead, buttonMain, exitPopUp, popUp, notesContainer, wrapperOpen, noteTitle, noteText, message, wrapperEdit } from './modules/Selectors.js'
 
 let ui;
 let storage;
@@ -23,17 +23,32 @@ function eventListeners(){
     popUp.addEventListener('submit', manageValues);
     notesContainer.addEventListener('click', (e) => {
         if(e.target.name == 'edit-option' || e.target.name == 'remove-option' || e.target.name == 'open-option'){
-            optionsNote(e);
+                optionsNote(e);
         }
     });
-    wrapperOpen.addEventListener('click', exitPopUpOption);
-}
+    wrapperOpen.addEventListener('click', (e) => {
+        ui = new UI();
+        ui.exitNote(e)
+    });
+    wrapperEdit.addEventListener('click', (e) => {
+        e.preventDefault();
+        if(e.target.name === 'exit-edit'){
+            ui = new UI();
+            ui.exitEditNote();
+        }else if(e.target.name === 'save-changes'){
+            const itemId = e.target.parentElement.parentElement.id;
+            const newTitle = e.target.parentElement.parentElement[0].value;
+            const newText = e.target.parentElement.parentElement[1].value;
 
-function exitPopUpOption(e){
-    if(e.target.name == 'exit'){
-        wrapperOpen.style.display = 'none';
-        wrapperOpen.innerHTML = '';
-    }
+            ui = new UI();
+            storage = new Storage(newTitle, newText, itemId);
+            storage.saveValue();
+            notesContainer.innerHTML = '';
+            showItems();
+            ui.exitEditNote();
+        }
+        
+    });
 }
 
 function manageValues(e){
@@ -69,14 +84,16 @@ function showItems(){
 
         storage = new Storage();
         let keyItems = storage.getValues();
-
+        keyItems.sort((a,b) => {
+            return a - b;
+        })
+        keyItems.reverse()
         for(let i = 0; i < keyItems.length; i++){
 
             const getItems = localStorage.getItem(keyItems[i]);
             const itemSplit = getItems.split(",");
 
             ui = new UI(itemSplit[0], itemSplit[1]);
-
 
                 const card = ui.cardNote();
                 let divCreate = document.createElement('div');
@@ -98,16 +115,28 @@ function optionsNote(e){
 
     const titleContent = e.target.parentElement.previousElementSibling.children[0].textContent,
     textContent = e.target.parentElement.previousElementSibling.children[1].value;
+    const idNote = e.target.parentElement.parentElement.id;
 
     storage = new Storage();
     ui = new UI(titleContent, textContent);
 
     if(e.target.name === 'remove-option'){
-        const idNote = e.target.parentElement.parentElement.id;
+
         storage.removeItem(idNote);
         e.target.parentElement.parentElement.remove();
-    }else if(e.target.name = "open-option"){
+
+        if(localStorage.length == 0){
+            location.reload();
+        }
+
+    }else if(e.target.name === "open-option"){
+
         ui.OpenNote();
+
+    }else if(e.target.name === 'edit-option'){
+
+        ui.editNote(idNote);
+
     }
 
 }

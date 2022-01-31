@@ -29,7 +29,8 @@ class Storage extends UI {
         }
         const keySplit = keys.split(",");
         const filterKey = keySplit.filter(item => item != '');
-        return filterKey;
+        const numberKey = filterKey.map( Element => parseInt(Element));
+        return numberKey;
 
     }
 

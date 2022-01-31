@@ -1,4 +1,5 @@
-import { wrapperOpen, wrapper, popUp, message, notesContainer } from "./Selectors.js";
+import { wrapperOpen, wrapper, popUp, message, notesContainer, wrapperEdit } from "./Selectors.js";
+
 class UI {
 
     constructor(title, content){
@@ -52,6 +53,54 @@ class UI {
         wrapperOpen.style.display = 'block';
     }
 
+    exitNote(e){
+        if(e.target.name == 'exit'){
+            wrapperOpen.style.display = 'none';
+            wrapperOpen.innerHTML = '';
+        }
+    }
+
+    editNote(id){
+
+        const divEdit = document.createElement('div')
+        divEdit.innerHTML = `
+
+            <div class="container">
+                
+                <form class="pop-up-form" id="${id}">
+
+                    <div class="exit">
+                
+                        <a href="#" class="fas fa-times" name="exit-edit"></a>
+        
+                    </div>
+
+                    <label class="label-title" for="note-title">Title Note</label>
+                    <input class="input-title" type="text" id="note-title" placeholder="The note title" value="${this.title}">
+
+                    <label class="label-content" for="content-note">Content Note</label>
+                    <textarea class="text-content" placeholder="Add your note" id="content-note">${this.content}</textarea>
+
+                    <div class="save-changes">
+                        <input class="input-save" name="save-changes" type="submit" value="Save">
+                    </div>
+
+                </form>
+
+            </div>
+
+        `;
+
+        document.querySelector('.wrapper-edit').append(divEdit);
+        wrapperEdit.style.display = 'block';
+        
+    }
+
+    exitEditNote(){
+        wrapperEdit.style.display = 'none';
+        wrapperEdit.innerHTML = '';
+    }
+
     showNewNoteForm(){
         wrapper.style.display = 'block';
     }
@@ -69,6 +118,7 @@ class UI {
 
     cleanForm(){
         popUp.reset();
+
     }
 
     
